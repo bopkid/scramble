@@ -46,40 +46,33 @@ const scrambleWords = (sentance) =>{
 }
 
 const nextGame = () =>{
-    const nextUrl =''
+
+    
+    const nextUrl ='https://api.hatchways.io/assessment/sentences/'+ currentGame
+    let span = document.querySelector('.display')
+    let guessContainer = document.querySelector('.quess_container')
+    let score = document.querySelector('.score')
+    let container = document.querySelector('.container')
+
+
+    guessContainer.innerHTML =""
+    span.innerHTML = ""
+  
+    scoreCount++;
+    score.innerHTML = ''
+    score.innerHTML = "Score: "+ scoreCount
+
+    if(scoreCount == 10){
+        container.innerHTML =''
+        container.innerHTML = "You Win!"
+    }
+
+
     getFetch(nextUrl)
 }
 
 const getFetch = (url) =>{
-
-}
-
-
-let currentLetter = 0;
-const makeGuess = (e) =>{
-    let guess= document.querySelectorAll('.letter');
-    console.log(e)
-
-    if(e.keyCode == 8){
-        currentLetter--;
-        guess[currentLetter].innerHTML = " "
-        guess[currentLetter].classList.remove('correct')
-        return true
-    }
-
-    if(guess[currentLetter].dataset.letter  === e.key){
-        guess[currentLetter].classList.add('correct')
-        
-    }
-    guess[currentLetter].innerHTML = e.key
-    currentLetter++;
-    return true
-}
-
-
-//intital get fetch futher get request will be fetch by getFetch
-
-fetch('https://api.hatchways.io/assessment/sentences/2')
+    fetch(url)
     .then(function(res){
     
         //handle response
@@ -108,7 +101,10 @@ fetch('https://api.hatchways.io/assessment/sentences/2')
                let letter = document.createElement('button');
                letter.classList.add('letter')
                 
-            
+
+               if(letters[i][j] == " "){
+                   letter.classList.add("space")
+               }
                letter.innerHTML = letters[i][j];
                letterContainer.appendChild(letter)
               
@@ -134,6 +130,121 @@ fetch('https://api.hatchways.io/assessment/sentences/2')
 
     })
 
+}
+
+
+let currentLetter = 0;
+
+const makeGuess = (e) =>{
+    let guess= document.querySelectorAll('.letter');
+    let next = document.querySelector('.next')
+  
+
+    if(e.keyCode == 8){
+        currentLetter--;
+        guess[currentLetter].innerHTML = " "
+        guess[currentLetter].classList.remove('correct')
+        return true
+    }
+ 
+
+    else  if(guess[currentLetter].dataset.letter  === e.key){
+         guess[currentLetter].classList.remove('space')
+            guess[currentLetter].classList.add('correct')
+        }
+
+    
+        guess[currentLetter].innerHTML = e.key
+        currentLetter++;
+        return true
+    }
+const checkWinner =()=>{
+    let check = document.querySelectorAll('.letter')
+    let nextWords = document.querySelector(".next");
+
+    console.log(currentLetter)
+    if(check.length === currentLetter){
+       nextWords.classList.remove('noDisplay')
+    }
+}
+
+//intital get fetch futher get request will be fetch by getFetch
+
+fetch('https://api.hatchways.io/assessment/sentences/1')
+    .then(function(res){
+    
+        //handle response
+        return  res.json(); 
+    })
+    .then((res) =>{
+        let words= res.data.sentence; 
+        words = words.toLowerCase()
+        let scrabmled  =scrambleWords(words)
+        let letters= words.split(/(?=[])|(?<=[ ])/g)
+        console.log(letters)
+  
+
+        let span = document.querySelector('.display')
+        let guessContainer = document.querySelector('.quess_container')
+        let li = document.createElement('li')
+
+
+        li.innerHTML = scrabmled
+        span.appendChild(li)
+       
+        for (let i = 0; i < letters.length; i++) {
+           let letterContainer = document.createElement('div')
+           letterContainer.classList.add('letterContainer')
+           for (let j = 0; j < letters[i].length; j++) {
+               let letter = document.createElement('button');
+               letter.classList.add('letter')
+                
+
+               if(letters[i][j] == " "){
+                   letter.classList.add("space")
+               }
+               letter.innerHTML = letters[i][j];
+               letterContainer.appendChild(letter)
+              
+               
+           }
+           guessContainer.appendChild(letterContainer)
+        }
+      
+
+        let allLetter = document.querySelectorAll('.letter')
+
+        for (let i = 0; i < allLetter.length; i++) {
+            
+            allLetter[i].setAttribute('data-letter' , allLetter[i].innerHTML)
+            allLetter[i].innerHTML = ""
+           
+            
+        }
+    
+
+
+    })
+    .catch(function(){
+
+    })
+
     document.addEventListener('keydown', (e)=>{
         makeGuess(e)
+        checkWinner()
     })
+
+
+
+let currentGame = 1;
+let scoreCount = 0;
+
+
+const nextWords = document.querySelector(".next");
+
+
+nextWords.addEventListener('click', ()=>{
+    nextWords.classList.add('noDisplay')
+    currentGame++;
+    nextGame()
+})
