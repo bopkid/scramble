@@ -1,3 +1,9 @@
+let currentLetter = 0;
+let currentGame = 1;
+let scoreCount = 0;
+
+
+const nextWords = document.querySelector(".next");
 
 
 const getRandomIntInclusive =(min, max) =>{
@@ -57,7 +63,10 @@ const nextGame = () =>{
 
     guessContainer.innerHTML =""
     span.innerHTML = ""
-  
+
+    currentLetter =0
+
+
     scoreCount++;
     score.innerHTML = ''
     score.innerHTML = "Score: "+ scoreCount
@@ -133,7 +142,7 @@ const getFetch = (url) =>{
 }
 
 
-let currentLetter = 0;
+
 
 const makeGuess = (e) =>{
     let guess= document.querySelectorAll('.letter');
@@ -234,13 +243,6 @@ fetch('https://api.hatchways.io/assessment/sentences/1')
         checkWinner()
     })
 
-
-
-let currentGame = 1;
-let scoreCount = 0;
-
-
-const nextWords = document.querySelector(".next");
 
 
 nextWords.addEventListener('click', ()=>{
