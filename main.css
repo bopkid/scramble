@@ -1,0 +1,70 @@
+
+
+
+body{
+    background-color: gray;
+}
+.container{
+    background-color: white;
+    text-align: center;
+    padding-top: 50px;
+    max-width: 80%;
+    margin: auto;
+}
+
+.display{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: 100%;
+    font-size: 55px;
+}
+.displsy_container{
+   
+    width: 50%;
+    margin: auto;
+    max-width: 50%;
+   
+}
+.container li{
+    list-style: none;
+}
+
+.instrution{
+    font-weight: 200;
+    font-size: 35px;
+    width: 50%;
+    margin: auto;
+    max-width: 49%;
+    padding-top: 30px;
+    line-height: 1.8;
+}
+
+
+.quess_container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding-top: 100px;
+
+}
+.letterContainer{
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: stretch;
+    gap: 15px;
+    padding-top: 10px;
+  
+
+}
+.letter{
+    height: 40px;
+    flex-grow: 1;
+}
+
+.correct{
+    background-color:  #4caf50 ;
+  
+}
